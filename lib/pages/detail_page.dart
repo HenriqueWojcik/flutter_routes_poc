@@ -26,6 +26,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   _get() async {
+    // Fake api
     List<Book> books = await booksList(id: widget.id);
     book = books.first;
     setState(() {});

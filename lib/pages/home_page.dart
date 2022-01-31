@@ -20,6 +20,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   _getBooks() async {
+    // Fake api
+
     books = await booksList();
     setState(() {});
   }
