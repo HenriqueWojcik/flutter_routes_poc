@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_routes_poc/nav.dart';
-import 'package:flutter_routes_poc/routes.gr.dart';
+import 'package:flutter_routes_poc/routes.dart';
 import 'package:flutter_routes_poc/utils/books.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({
+    Key? key,
+    this.deeplink,
+  }) : super(key: key);
+
+  final String? deeplink;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -64,16 +70,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onClickBtn(int id) {
-    navHelper.push(
-      DetailPageRoute(id: id),
-    );
+    navHelper.push(context, "${Routes.detailPage}?id=$id");
   }
 
   void _onClickColorsBtn() {
-    navHelper.pushAll([
-      RedPageRoute(),
-      GreenPageRoute(),
-      BluePageRoute(),
+    navHelper.pushAll(context, [
+      Routes.redPage,
+      Routes.greenPage,
+      Routes.bluePage,
     ]);
   }
 }

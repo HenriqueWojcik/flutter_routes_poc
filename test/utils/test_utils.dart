@@ -1,27 +1,28 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_routes_poc/nav.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Future<void> pumpRouterApp(WidgetTester tester, RootStackRouter router,
+Future<void> pumpRouterApp(WidgetTester tester, NavHelper navHelper,
     {String? deeplink}) {
   return tester
       .pumpWidget(
-        MaterialApp.router(
-          routeInformationParser: router.defaultRouteParser(),
-          routerDelegate: router.delegate(
-            initialDeepLink: deeplink,
-          ),
+        MaterialApp(
+          onGenerateRoute: navHelper.fluroRouter.generator,
+          navigatorObservers: navHelper.observers,
         ),
       )
       .then((_) => tester.pumpAndSettle());
 }
 
-void expectCurrentPage(StackRouter router, String name) {
-  expect(router.current.name, name);
+void expectCurrentPage(FluroRouter router, String name) {
+  AppRouteMatch? match = router.match(name);
+
+  expect(match?.route.route, name);
 }
 
-void expectStack(StackRouter router, List<String> stackNames) {
+void expectStack(FluroRouter router, List<String> stackNames) {
   for (int i = 0; i < stackNames.length; i++) {
-    expect(router.stack[i].name, stackNames[i]);
+    // expect(router.stack[i].name, stackNames[i]);
   }
 }

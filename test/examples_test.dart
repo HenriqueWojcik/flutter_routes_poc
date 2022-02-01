@@ -1,71 +1,71 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_routes_poc/nav.dart';
-import 'package:flutter_routes_poc/routes.gr.dart';
+import 'package:flutter_routes_poc/pages/colors_page/blue_page.dart';
+import 'package:flutter_routes_poc/pages/colors_page/red_page.dart';
+import 'package:flutter_routes_poc/pages/detail_page.dart';
+import 'package:flutter_routes_poc/routes.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:mockito/mockito.dart';
+import 'mocks/all.mocks.dart';
 import 'utils/test_utils.dart';
 
 void main() {
+  late MockNavigatorObserver observer;
+
   setUp(() {
-    navHelper = NavHelper(appRouter: AppRouter());
+    observer = MockNavigatorObserver();
+
+    navHelper = NavHelper(
+      fluroRouter: FluroRouter(),
+      observers: <NavigatorObserver>[observer],
+    );
+
+    Routes.configureRoutes(navHelper.fluroRouter);
   });
 
-  testWidgets('should call push correctly', (WidgetTester tester) async {
-    await pumpRouterApp(tester, navHelper.appRouter);
+  testWidgets('should call push to detail page correctly',
+      (WidgetTester tester) async {
+    await pumpRouterApp(tester, navHelper);
 
     Finder btn = find.byKey(Key("btn_1"));
     await tester.tap(btn);
+    await tester.pumpAndSettle();
 
-    expectCurrentPage(navHelper.appRouter, DetailPageRoute.name);
+    verify(observer.didPush(any, any)).called(2);
+    expect(find.byType(DetailPage), findsOneWidget);
   });
 
   testWidgets("should call pushAll correctly", (WidgetTester tester) async {
-    await pumpRouterApp(tester, navHelper.appRouter);
+    await pumpRouterApp(tester, navHelper);
 
     Finder btn = find.byKey(Key("btn_colors"));
     await tester.tap(btn);
 
-    expectStack(navHelper.appRouter, [
-      HomePageRoute.name,
-      RedPageRoute.name,
-      GreenPageRoute.name,
-      BluePageRoute.name
-    ]);
-  });
-
-  testWidgets("should call popUntil correctly", (WidgetTester tester) async {
-    await pumpRouterApp(tester, navHelper.appRouter);
-
-    Finder btnColors = find.byKey(Key("btn_colors"));
-    await tester.tap(btnColors);
-
     await tester.pumpAndSettle();
 
-    Finder btnPop = find.byKey(Key("btn_pop"));
-    await tester.tap(btnPop);
-
-    expectCurrentPage(navHelper.appRouter, RedPageRoute.name);
+    verify(observer.didPush(any, any)).called(4);
+    expect(find.byType(BluePage), findsOneWidget);
   });
 
-  testWidgets("should stack screens correctly with deeplink",
-      (WidgetTester tester) async {
-    await pumpRouterApp(tester, navHelper.appRouter,
-        deeplink: "/detail-page/2");
+  // TODO
+  // testWidgets("should stack screens correctly with deeplink",
+  //     (WidgetTester tester) async {
+  //   await pumpRouterApp(tester, navHelper, deeplink: "/detail-page?id=2");
 
-    await tester.pumpAndSettle();
+  //   await tester.pumpAndSettle();
 
-    expectCurrentPage(navHelper.appRouter, DetailPageRoute.name);
-  });
+  //   expectCurrentPage(navHelper.fluroRouter, Routes.redPage);
+  // });
 
-  testWidgets("should call pop correctly", (WidgetTester tester) async {
-    await pumpRouterApp(tester, navHelper.appRouter,
-        deeplink: "/detail-page/2");
+  // testWidgets("should call pop correctly", (WidgetTester tester) async {
+  //   await pumpRouterApp(tester, navHelper, deeplink: "/detail-page?id=2");
 
-    await tester.pumpAndSettle();
+  //   await tester.pumpAndSettle();
 
-    Finder btnPop = find.byKey(Key("btn_pop"));
-    await tester.tap(btnPop);
+  //   Finder btnPop = find.byKey(Key("btn_pop"));
+  //   await tester.tap(btnPop);
 
-    expectCurrentPage(navHelper.appRouter, HomePageRoute.name);
-  });
+  //   expectCurrentPage(navHelper.fluroRouter, Routes.homePage);
+  // });
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_routes_poc/nav.dart';
+import 'package:flutter_routes_poc/routes.dart';
 
-// Está POC consiste em servir de exemplo um mini projeto para o package "auto_route".
-// Link do package: https://pub.dev/packages/auto_route
+// Está POC consiste em servir de exemplo um mini projeto para o package "fluro".
+// Link do package: https://pub.dev/packages/fluro
 
 // Para melhor entendimento de como fazer push, pop, pushAll, popUntil, entre no arquivo "nav.dart"
 
@@ -20,7 +21,7 @@ import 'package:flutter_routes_poc/nav.dart';
 void main() {
   runApp(MyApp(
     navHelper: navHelper,
-    // deeplink: "/detail-page/2",
+    deeplink: "/detail-page?id=2",
   ));
 }
 
@@ -39,19 +40,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // Para o uso do package é obrigatório que seja usado o método "router" dentro do MaterialApp.
+  @override
+  void initState() {
+    super.initState();
+    Routes.configureRoutes(navHelper.fluroRouter, deeplink: widget.deeplink);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // O pacote possui esse delegate, é interessante ver os restantes dos parametros para um melhor entendimento do pacote todo em sí.
-      routerDelegate: widget.navHelper.appRouter.delegate(
-        initialDeepLink: widget.deeplink,
-      ),
-      routeInformationParser: widget.navHelper.appRouter.defaultRouteParser(),
+      onGenerateRoute: navHelper.fluroRouter.generator,
     );
   }
 }
