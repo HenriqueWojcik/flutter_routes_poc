@@ -14,15 +14,3 @@ Future<void> pumpRouterApp(WidgetTester tester, NavHelper navHelper,
       )
       .then((_) => tester.pumpAndSettle());
 }
-
-void expectCurrentPage(FluroRouter router, String name) {
-  AppRouteMatch? match = router.match(name);
-
-  expect(match?.route.route, name);
-}
-
-void expectStack(FluroRouter router, List<String> stackNames) {
-  for (int i = 0; i < stackNames.length; i++) {
-    // expect(router.stack[i].name, stackNames[i]);
-  }
-}

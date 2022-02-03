@@ -9,12 +9,7 @@ import 'package:flutter_routes_poc/routes.dart';
 
 // Para melhor entendimento de como setar as rotas, entre no arquivo "routes.dart"
 
-// Para esse pacote é necessário a geração de código, segue o comando:
-// flutter packages pub run build_runner build
-// ou
-// flutter packages pub run build_runner watch
-
-// Para começo, aqui estou passando a váriavel global "navHelper", onde possui uma váriavel "appRouter" que é encarregada de fazer o roteamento do app.
+// Para começo, aqui estou passando a váriavel global "navHelper", onde possui uma váriavel "fluroRouter" que é encarregada de fazer o roteamento do app.
 // Obs: Fazer essa injeção de variável por injeção de dependencia (não fiz isso aqui por conta que iria fujir do objetivo da POC).
 
 // Para deeplinks também fiz um exemplo básico, não necessariamente precisa ser desse modo.
