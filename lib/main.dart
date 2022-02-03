@@ -49,8 +49,9 @@ class _MyAppState extends State<MyApp> {
       ),
       // O pacote possui esse delegate, é interessante ver os restantes dos parametros para um melhor entendimento do pacote todo em sí.
       routerDelegate: widget.navHelper.appRouter.delegate(
-        initialDeepLink: widget.deeplink,
-      ),
+          initialDeepLink: widget.deeplink,
+          navigatorObservers: () =>
+              <NavigatorObserver>[widget.navHelper.observer]),
       routeInformationParser: widget.navHelper.appRouter.defaultRouteParser(),
     );
   }

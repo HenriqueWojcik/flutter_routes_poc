@@ -1,13 +1,20 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+
 import 'package:flutter_routes_poc/routes.gr.dart';
 
-NavHelper navHelper = NavHelper(appRouter: AppRouter());
+NavHelper navHelper = NavHelper(
+  appRouter: AppRouter(),
+  observer: NavigatorObserver(),
+);
 
 class NavHelper implements NavHelperInterface {
   late AppRouter appRouter;
+  late NavigatorObserver observer;
 
   NavHelper({
     required this.appRouter,
+    required this.observer,
   });
 
   // PageRouteInfo é um tipo de classe do pacote, toda a vez que gera o código o pacote cria um PageRouteInfo para cada rota;
