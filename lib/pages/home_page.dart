@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_routes_poc/nav.dart';
-import 'package:flutter_routes_poc/routes.gr.dart';
+import 'package:flutter_routes_poc/pages/colors_page/blue_page.dart';
+import 'package:flutter_routes_poc/pages/colors_page/green_page.dart';
+import 'package:flutter_routes_poc/pages/colors_page/red_page.dart';
+import 'package:flutter_routes_poc/pages/detail_page.dart';
 import 'package:flutter_routes_poc/utils/books.dart';
 
 class HomePage extends StatefulWidget {
@@ -64,16 +67,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onClickBtn(int id) {
-    navHelper.push(
-      DetailPageRoute(id: id),
-    );
+    navHelper.push(DetailPage(id: id));
   }
 
   void _onClickColorsBtn() {
     navHelper.pushAll([
-      RedPageRoute(),
-      GreenPageRoute(),
-      BluePageRoute(),
+      RedPage(),
+      GreenPage(),
+      BluePage(),
     ]);
   }
 }

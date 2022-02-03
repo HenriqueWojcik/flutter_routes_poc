@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_routes_poc/nav.dart';
 
@@ -7,7 +6,7 @@ import 'package:flutter_routes_poc/utils/books.dart';
 class DetailPage extends StatefulWidget {
   const DetailPage({
     Key? key,
-    @pathParam required this.id,
+    required this.id,
   }) : super(key: key);
 
   final int id;

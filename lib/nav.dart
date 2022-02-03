@@ -1,46 +1,55 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:flutter_routes_poc/routes.gr.dart';
+import 'package:flutter/material.dart';
 
-NavHelper navHelper = NavHelper(appRouter: AppRouter());
+import 'package:flutter_routes_poc/pages/detail_page.dart';
+
+NavHelper navHelper = NavHelper(
+  navigatorKey: GlobalKey<NavigatorState>(),
+  observer: NavigatorObserver(),
+);
 
 class NavHelper implements NavHelperInterface {
-  late AppRouter appRouter;
+  late GlobalKey<NavigatorState> navigatorKey;
+  late NavigatorObserver observer;
 
   NavHelper({
-    required this.appRouter,
+    required this.navigatorKey,
+    required this.observer,
   });
-
-  // PageRouteInfo é um tipo de classe do pacote, toda a vez que gera o código o pacote cria um PageRouteInfo para cada rota;
-  // Para a "DetailPage" é criado um "DetailRouteInfo", para navagedar da HomePage para a página de Detalhe é necessário passar o DetailRouteInfo como parametro.
   @override
-  push<T>(PageRouteInfo route) {
-    appRouter.push<T>(route);
+  push<T>(Widget page) {
+    final WidgetBuilder builder = (_) => page;
+
+    return navigatorKey.currentState?.push(MaterialPageRoute(builder: builder));
   }
 
-  // Para dar push em uma pilha de páginas, segue a mesma ideia do push porém passando uma lista PageRouteInfo.
-  @override
-  pushAll(List<PageRouteInfo> routes) {
-    appRouter.pushAll(routes);
-  }
-
-  // Quando há uma pilha de telas e você quer retorna para alguma que esteja no meio da pilha, é necessário passar o name da página.
-  // Para acessar o nome da página corretamente, há um getter em cada PageRouteInfo, por exemplo na página de detalhe é acessar a váriavel DetailPageRoute.name
-  @override
-  popUntil(String name) {
-    appRouter.popUntilRouteWithName(name);
-  }
-
-  // O pop é simples, é só chamar o método.
-  // Para retornos de valores é interessante pesquisar no link do pacote como se faz.
   @override
   pop<T>() {
-    appRouter.pop<T>();
+    navigatorKey.currentState?.pop();
+  }
+
+  @override
+  popUntil(String route) {
+    navigatorKey.currentState?.popUntil(ModalRoute.withName('/'));
+  }
+
+  @override
+  pushAll(List<Widget> pages) {
+    for (var element in pages) {
+      final WidgetBuilder builder = (_) => element;
+
+      navigatorKey.currentState?.push(MaterialPageRoute(builder: builder));
+    }
+  }
+
+  void handleDeepLink(String deeplink) {
+    int id = int.parse(deeplink);
+    push(DetailPage(id: id));
   }
 }
 
 abstract class NavHelperInterface {
-  push<T>(PageRouteInfo route);
-  pushAll(List<PageRouteInfo> routes);
+  push<T>(Widget page);
+  pushAll(List<Widget> pages);
   popUntil(String name);
   pop<T>();
 }

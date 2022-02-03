@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_routes_poc/nav.dart';
-import 'package:flutter_routes_poc/routes.gr.dart';
 
 class BluePage extends StatefulWidget {
   const BluePage({Key? key}) : super(key: key);
@@ -31,6 +30,6 @@ class _BluePageState extends State<BluePage> {
   }
 
   void _onClickPopUntil() {
-    navHelper.popUntil(RedPageRoute.name);
+    navHelper.popUntil('/');
   }
 }
