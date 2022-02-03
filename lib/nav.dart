@@ -41,9 +41,12 @@ class NavHelper implements NavHelperInterface {
     }
   }
 
-  void handleDeepLink(String deeplink) {
-    int id = int.parse(deeplink);
-    push(DetailPage(id: id));
+  void handleDeepLink(String? deeplink) async {
+    if (deeplink != null) {
+      int id = int.parse(deeplink);
+      await Future.delayed(Duration(microseconds: 100));
+      push(DetailPage(id: id));
+    }
   }
 }
 

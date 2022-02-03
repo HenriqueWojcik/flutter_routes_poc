@@ -22,9 +22,3 @@ Future<void> pumpRouterApp(WidgetTester tester, NavHelper navHelper,
 void expectCurrentPage(NavHelper navHelper, Type widget) {
   expect(find.byType(widget), findsOneWidget);
 }
-
-void expectStack(NavHelper navHelper, List<String> stackNames) {
-  for (int i = 0; i < stackNames.length; i++) {
-    // expect(router.stack[i].name, stackNames[i]);
-  }
-}

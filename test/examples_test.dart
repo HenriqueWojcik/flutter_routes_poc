@@ -21,7 +21,8 @@ void main() {
     );
   });
 
-  testWidgets('should call push correctly', (WidgetTester tester) async {
+  testWidgets('should call push to DetailPage correctly',
+      (WidgetTester tester) async {
     await pumpRouterApp(tester, navHelper);
 
     Finder btn = find.byKey(Key("btn_1"));
@@ -32,7 +33,7 @@ void main() {
     expectCurrentPage(navHelper, DetailPage);
   });
 
-  testWidgets("should call pop correctly", (WidgetTester tester) async {
+  testWidgets("should call pop to Home correctly", (WidgetTester tester) async {
     await pumpRouterApp(tester, navHelper);
 
     Finder btn = find.byKey(Key("btn_1"));
@@ -47,7 +48,8 @@ void main() {
     expectCurrentPage(navHelper, HomePage);
   });
 
-  testWidgets("should call pushAll correctly", (WidgetTester tester) async {
+  testWidgets("should call pushAll to Blue page correctly",
+      (WidgetTester tester) async {
     await pumpRouterApp(tester, navHelper);
 
     Finder btn = find.byKey(Key("btn_colors"));
@@ -58,7 +60,8 @@ void main() {
     expectCurrentPage(navHelper, BluePage);
   });
 
-  testWidgets("should call popUntil correctly", (WidgetTester tester) async {
+  testWidgets("should call popUntil to Home correctly",
+      (WidgetTester tester) async {
     await pumpRouterApp(tester, navHelper);
 
     Finder btnColors = find.byKey(Key("btn_colors"));
@@ -73,5 +76,15 @@ void main() {
     verify(observer.didPop(any, any)).called(3);
 
     expectCurrentPage(navHelper, HomePage);
+  });
+
+  testWidgets("should handle deeplink correctly", (WidgetTester tester) async {
+    await pumpRouterApp(tester, navHelper, deeplink: "2");
+    await tester.pump(Duration(seconds: 1));
+
+    await tester.pumpAndSettle();
+
+    verify(observer.didPush(any, any)).called(1);
+    expectCurrentPage(navHelper, DetailPage);
   });
 }
