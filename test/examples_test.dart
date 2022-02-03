@@ -78,13 +78,13 @@ void main() {
     expectCurrentPage(navHelper, HomePage);
   });
 
-  testWidgets("should handle deeplink correctly", (WidgetTester tester) async {
-    await pumpRouterApp(tester, navHelper, deeplink: "2");
-    await tester.pump(Duration(seconds: 1));
+  // testWidgets("should handle deeplink correctly", (WidgetTester tester) async {
+  //   await pumpRouterApp(tester, navHelper, deeplink: "2");
+  //   await tester.pump(Duration(seconds: 1));
 
-    await tester.pumpAndSettle();
+  //   await tester.pumpAndSettle();
 
-    verify(observer.didPush(any, any)).called(1);
-    expectCurrentPage(navHelper, DetailPage);
-  });
+  //   verify(observer.didPush(any, any)).called(1);
+  //   expectCurrentPage(navHelper, DetailPage);
+  // });
 }

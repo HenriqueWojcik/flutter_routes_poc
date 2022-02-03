@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_routes_poc/pages/detail_page.dart';
 
+// NavigatorKey possui a variável de contexto, dá para usar em vários lugares que seja necessário passar o context por parametro.
+// Observer é para afins de teste, com ele conseguimos mockar e ver se está sendo chamado corretamente os pushs/pops.
+
 NavHelper navHelper = NavHelper(
   navigatorKey: GlobalKey<NavigatorState>(),
   observer: NavigatorObserver(),
@@ -15,6 +18,7 @@ class NavHelper implements NavHelperInterface {
     required this.navigatorKey,
     required this.observer,
   });
+
   @override
   push<T>(Widget page) {
     final WidgetBuilder builder = (_) => page;
@@ -41,6 +45,8 @@ class NavHelper implements NavHelperInterface {
     }
   }
 
+  // Inicializando o app com deeplink no Navigator 1.0 bem complicado, essa é uma maneira básica, não é aconcelhavel utiliza-la.
+  // Para o exemplo de deeplink, por favor utilizar o exemplo do "auto_route".
   void handleDeepLink(String? deeplink) async {
     if (deeplink != null) {
       int id = int.parse(deeplink);
